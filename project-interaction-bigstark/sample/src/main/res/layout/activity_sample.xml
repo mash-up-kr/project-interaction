@@ -5,10 +5,13 @@
     >
 
     <com.bigstark.interaction.CircleLoadingView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/circle_loading_view"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_centerInParent="true"
+        app:color="#FED030"
+        app:radius="30dp"
         />
 
 </RelativeLayout>

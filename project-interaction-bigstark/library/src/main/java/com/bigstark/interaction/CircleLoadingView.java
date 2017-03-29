@@ -3,6 +3,7 @@ package com.bigstark.interaction;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -45,6 +46,15 @@ public class CircleLoadingView extends View {
 
     public CircleLoadingView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
+        if (attrs == null) {
+            return;
+        }
+
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.CircleLoadingView);
+        color = ta.getColor(R.styleable.CircleLoadingView_color, COLOR_DEFAULT);
+        radius = ta.getDimensionPixelSize(R.styleable.CircleLoadingView_radius, RADIUS_DEFAULT);
+        ta.recycle();
     }
 
 
