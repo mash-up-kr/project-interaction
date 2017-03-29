@@ -54,18 +54,37 @@ public class CircleLoadingView extends View {
         int width = getWidth();
         int height = getHeight();
 
+        // o ㅡㅡ o
+        //
+        //
+        // o     o
         resetPaint(0);
         float[] circleCenter = getHorizontalCenter(width, height, true);
         canvas.drawCircle(circleCenter[0], circleCenter[1], radius, paint);
 
+
+        // o      o
+        //        |
+        //        |
+        // o      o
         resetPaint(1);
         circleCenter = getVerticalCenter(width, height, true);
         canvas.drawCircle(circleCenter[0], circleCenter[1], radius, paint);
 
+
+        // o     o
+        //
+        //
+        // o ㅡㅡ o
         resetPaint(2);
         circleCenter = getHorizontalCenter(width, height, false);
         canvas.drawCircle(circleCenter[0], circleCenter[1], radius, paint);
 
+
+        // o      o
+        // ㅣ
+        // ㅣ
+        // o      o
         resetPaint(3);
         circleCenter = getVerticalCenter(width, height, false);
         canvas.drawCircle(circleCenter[0], circleCenter[1], radius, paint);
@@ -85,12 +104,14 @@ public class CircleLoadingView extends View {
         }
     }
 
+    // "positive" is increasing positively horizontally
     private float[] getHorizontalCenter(int width, int height, boolean positive) {
         float x = (width - 2 * radius) * (positive ? offset : 1 - offset) + radius;
         float y = positive ? radius : height - radius;
         return new float[] {x, y};
     }
 
+    // "negative" is increasing negatively vertically
     private float[] getVerticalCenter(int width, int height, boolean negative) {
         float x = negative ? width - radius : radius;
         float y = (height - 2 * radius) * (negative ? offset : 1 - offset) + radius;
