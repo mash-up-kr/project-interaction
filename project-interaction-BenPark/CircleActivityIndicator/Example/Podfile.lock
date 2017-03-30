@@ -1,0 +1,16 @@
+PODS:
+  - CircleActivityIndicator (0.1.0)
+
+DEPENDENCIES:
+  - CircleActivityIndicator (from `../`)
+
+EXTERNAL SOURCES:
+  CircleActivityIndicator:
+    :path: ../
+
+SPEC CHECKSUMS:
+  CircleActivityIndicator: bd91e25553bfbb85f95b10b1d37d2bb91c78ff94
+
+PODFILE CHECKSUM: 9f2b91cb9b32351d25b6ae05ac468e21f5158a43
+
+COCOAPODS: 1.2.0.beta.3
