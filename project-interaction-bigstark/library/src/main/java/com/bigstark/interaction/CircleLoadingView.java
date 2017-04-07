@@ -31,7 +31,7 @@ public class CircleLoadingView extends View {
     private int radius = RADIUS_DEFAULT;
     private int color = COLOR_DEFAULT;
 
-    private float offset = 0;
+    private float frame = 0;
 
 
     private Paint paint = new Paint();
@@ -100,23 +100,23 @@ public class CircleLoadingView extends View {
         canvas.drawCircle(circleCenter[0], circleCenter[1], radius, paint);
     }
 
-    private void resetPaint(int progress) {
+    private void resetPaint(int step) {
         paint.reset();
 
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(color);
 
-        if (progress < 3) {
-            paint.setAlpha((int) (255 - (progress + offset) * (255 - ALPHA_FINAL) / 3));
+        if (step < 3) {
+            paint.setAlpha((int) (255 - (step + frame) * (255 - ALPHA_FINAL) / 3));
         } else {
-            paint.setAlpha((int) (ALPHA_FINAL + (255 - ALPHA_FINAL) * offset));
+            paint.setAlpha((int) (ALPHA_FINAL + (255 - ALPHA_FINAL) * frame));
         }
     }
 
     // "positive" is increasing positively horizontally
     private float[] getHorizontalCenter(int width, int height, boolean positive) {
-        float x = (width - 2 * radius) * (positive ? offset : 1 - offset) + radius;
+        float x = (width - 2 * radius) * (positive ? frame : 1 - frame) + radius;
         float y = positive ? radius : height - radius;
         return new float[] {x, y};
     }
@@ -124,7 +124,7 @@ public class CircleLoadingView extends View {
     // "negative" is increasing negatively vertically
     private float[] getVerticalCenter(int width, int height, boolean negative) {
         float x = negative ? width - radius : radius;
-        float y = (height - 2 * radius) * (negative ? offset : 1 - offset) + radius;
+        float y = (height - 2 * radius) * (negative ? frame : 1 - frame) + radius;
         return new float[] {x, y};
     }
 
@@ -146,9 +146,7 @@ public class CircleLoadingView extends View {
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-//                offset = animation.getAnimatedFraction() * 4;
-//                offset = offset - (int) offset;
-                offset = animation.getAnimatedFraction();
+                frame = animation.getAnimatedFraction();
                 postInvalidate();
             }
         });
