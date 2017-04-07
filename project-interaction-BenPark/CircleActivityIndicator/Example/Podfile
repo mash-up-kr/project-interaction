@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'CircleActivityIndicator_Example' do
+  pod 'CircleActivityIndicator', :path => '../'
+
+  target 'CircleActivityIndicator_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
