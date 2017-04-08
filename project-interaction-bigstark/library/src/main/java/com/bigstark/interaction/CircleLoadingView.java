@@ -25,13 +25,15 @@ public class CircleLoadingView extends View {
     public static final int ALPHA_FINAL = 51; // 0 <= alpha <= 255, 51 -> 20%
 
 
-    private int durationRotate = DURATION_ROTATE_DEFAULT;
-    private int durationInterval = DURATION_INTERVAL_DEFAULT;
+    private int duration = DURATION_ROTATE_DEFAULT;
+    private int interval = DURATION_INTERVAL_DEFAULT;
 
     private int radius = RADIUS_DEFAULT;
     private int color = COLOR_DEFAULT;
 
     private float frame = 0;
+
+    private ValueAnimator animator;
 
 
     private Paint paint = new Paint();
@@ -46,6 +48,7 @@ public class CircleLoadingView extends View {
 
     public CircleLoadingView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initValueAnimator();
 
         if (attrs == null) {
             return;
@@ -57,6 +60,22 @@ public class CircleLoadingView extends View {
         ta.recycle();
     }
 
+    private void initValueAnimator() {
+        animator = ValueAnimator.ofInt(0, 1);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                frame = animation.getAnimatedFraction();
+                postInvalidate();
+            }
+        });
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        stop(); // if loading view detached from window, animation must be stopped and stop the draw.
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -129,30 +148,71 @@ public class CircleLoadingView extends View {
     }
 
 
+    /**
+     * set circle radius
+     *
+     * @param radius : radius of circle
+     */
     public void setRadius(int radius) {
         this.radius = radius;
         postInvalidate();
     }
 
 
+    /**
+     * set circle color
+     *
+     * @param color : color of circle
+     */
     public void setColor(int color) {
         this.color = color;
         postInvalidate();
     }
 
 
+    /**
+     * set rotation duration.
+     *
+     * It means the duration that one point moves to another point.
+     *
+     * @param durationRotation
+     */
+    public void setRotationDuration(int durationRotation) {
+        this.duration = durationRotation;
+        start();
+    }
+
+
+    /**
+     * set interval.
+     *
+     * It means the break time after move one point.
+     *
+     * @param interval
+     */
+    public void setInterval(int interval) {
+        this.interval = interval;
+        start();
+    }
+
+
+    /**
+     * start animation
+     */
     public void start() {
-        ValueAnimator animator = ValueAnimator.ofInt(0, 1);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                frame = animation.getAnimatedFraction();
-                postInvalidate();
-            }
-        });
-        animator.setDuration(durationRotate);
-        animator.setStartDelay(durationInterval);
+        animator.setDuration(duration);
+        animator.setStartDelay(interval);
         animator.setRepeatCount(ObjectAnimator.INFINITE);
         animator.start();
     }
+
+    /**
+     * stop animation
+     */
+    public void stop() {
+        if (animator.isRunning()) {
+            animator.cancel();
+        }
+    }
+
 }

@@ -13,6 +13,8 @@ public class SampleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sample);
 
         CircleLoadingView clv = (CircleLoadingView) findViewById(R.id.circle_loading_view);
+        clv.setRotationDuration(500);
+        clv.setInterval(200);
         clv.start();
     }
 }
